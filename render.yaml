@@ -1,11 +1,11 @@
-services:
+databases:
   # The PostgreSQL Database (Free Tier)
-  - type: pserv
-    name: taskmanager-db
+  - name: taskmanager-db
     plan: free
     databaseName: tasks_db
     user: taskuser
 
+services:
   # The Unified Full-Stack Web Service (Free Tier)
   - type: web
     name: taskmanager-web
