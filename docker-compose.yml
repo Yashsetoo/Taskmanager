@@ -1,0 +1,42 @@
+services:
+
+  # ── TIER 2: Application ─────────────────────────────────
+  backend:
+    build: ./backend
+    container_name: taskmanager_backend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:8000:8000"   # only Nginx can reach this (locally you can reach it via localhost:8000)
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # reach host postgres
+    networks:
+      - app-network
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # ── TIER 1: Presentation ────────────────────────────────
+  frontend:
+    build: ./frontend
+    container_name: taskmanager_frontend
+    restart: unless-stopped
+    env_file: .env
+    ports:
+      - "127.0.0.1:3000:3000"   # only Nginx can reach this (locally you can reach it via localhost:3000)
+    depends_on:
+      backend:
+        condition: service_healthy
+    networks:
+      - app-network
+
+networks:
+  app-network:
+    driver: bridge
+
+# ── TIER 3: Data ────────────────────────────────────────────
+# PostgreSQL runs as a systemd service on the EC2 host (locally running on Windows host).
+# It is NOT in this docker-compose file by design.
+# The backend reaches it via host.docker.internal:5432

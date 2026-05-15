@@ -1,0 +1,50 @@
+@import url('https://fonts.googleapis.com/css2?family=IBM+Plex+Mono:wght@400;500;600&family=IBM+Plex+Sans:wght@300;400;500;600&display=swap');
+
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --ink: #0f0e0d;
+  --paper: #f5f2ee;
+  --muted: #e8e3dc;
+  --dim: #9e9890;
+  --accent: #d4570a;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--paper);
+  color: var(--ink);
+  font-family: 'IBM Plex Sans', system-ui, sans-serif;
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .task-card {
+    @apply bg-white border border-muted rounded-none transition-all duration-150;
+    border-left: 3px solid transparent;
+  }
+  .task-card:hover {
+    @apply shadow-sm;
+    border-left-color: var(--accent);
+  }
+  .btn-primary {
+    @apply bg-ink text-paper px-4 py-2 text-sm font-medium font-mono tracking-wide
+           hover:bg-accent transition-colors duration-150 disabled:opacity-40 disabled:cursor-not-allowed;
+  }
+  .btn-ghost {
+    @apply text-dim hover:text-ink px-2 py-1 text-xs font-mono transition-colors duration-150;
+  }
+  .input-field {
+    @apply w-full border border-muted bg-paper px-3 py-2 text-sm font-sans
+           focus:outline-none focus:border-ink transition-colors duration-150;
+  }
+  .select-field {
+    @apply border border-muted bg-paper px-2 py-1 text-xs font-mono
+           focus:outline-none focus:border-ink transition-colors duration-150 cursor-pointer;
+  }
+}
