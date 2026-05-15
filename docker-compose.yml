@@ -7,7 +7,9 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - "127.0.0.1:8000:8000"   # only Nginx can reach this (locally you can reach it via localhost:8000)
+      - "127.0.0.1:8000:8000"   # only Nginx can reach this
+    extra_hosts:
+      - "host.docker.internal:host-gateway"  # reach host postgres
     networks:
       - app-network
     healthcheck:
@@ -23,7 +25,7 @@ services:
     restart: unless-stopped
     env_file: .env
     ports:
-      - "127.0.0.1:3000:3000"   # only Nginx can reach this (locally you can reach it via localhost:3000)
+      - "127.0.0.1:3000:3000"   # only Nginx can reach this
     depends_on:
       backend:
         condition: service_healthy
@@ -35,6 +37,6 @@ networks:
     driver: bridge
 
 # ── TIER 3: Data ────────────────────────────────────────────
-# PostgreSQL runs as a systemd service on the EC2 host (locally running on Windows host).
+# PostgreSQL runs as a systemd service on the EC2 host.
 # It is NOT in this docker-compose file by design.
 # The backend reaches it via host.docker.internal:5432
