@@ -1,6 +1,6 @@
 #!/bin/bash
 set -e
-REGION="ap-south-1"   # update to your region
+REGION="eu-north-1"   # update to your region
 
 get() {
   aws ssm get-parameter --region $REGION --name "$1" \
@@ -24,3 +24,4 @@ NEXT_PUBLIC_API_URL=$(get /taskapp/NEXT_PUBLIC_API_URL)
 EOF
 
 echo "✓ .env written from SSM Parameter Store"
+
