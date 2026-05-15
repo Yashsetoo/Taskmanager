@@ -8,8 +8,6 @@ services:
     env_file: .env
     ports:
       - "127.0.0.1:8000:8000"   # only Nginx can reach this (locally you can reach it via localhost:8000)
-    extra_hosts:
-      - "host.docker.internal:host-gateway"  # reach host postgres
     networks:
       - app-network
     healthcheck:
